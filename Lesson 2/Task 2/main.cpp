@@ -1,129 +1,96 @@
 #include <iostream>
-#include <cstring>
 #include <fstream>
+#include <vector>
 #include <string>
 
-class Adress
+class Address
 {
 private:
-    std::string NameCity_;
-    std::string NameStreet_;
-    int NumberHouse_ = 0;
-    int NumberApartment_ = 0;
-    std::string FullAdress_;
+	std::string NameCity_;
+	std::string NameStreet_;
+	int NumberHouse_;
+	int NumberApartment_;
+
 
 public:
-    Adress(std::string NameCity, std::string NameStreet, int NumberHouse, int NumberApartment)
-    {
-        NameCity_ = NameCity;
-        NameStreet_ = NameStreet;
-        NumberHouse_ = NumberHouse;
-        NumberApartment_ = NumberApartment;
-    }
+	Address(std::string&  NameCity, std::string& NameStreet, int& NumberHouse, int& NumberApartment) {
+		NameCity_ =  NameCity;
+		NameStreet_ = NameStreet;
+		NumberHouse_ = NumberHouse;
+		NumberApartment_ = NumberApartment;
+	};
 
-    std::string createAdress2Out()
-    {
-        FullAdress_ = NameCity_ + ", " + NameStreet_ + ", " + std::to_string(NumberHouse_)
-            + ", " + std::to_string(NumberApartment_);
-        return FullAdress_;
-    };
+	std::string get_output_address() { return  NameCity_ + ", " + NameStreet_ + ", " + std::to_string(NumberHouse_) + ", " + std::to_string(NumberApartment_); }
+	std::string get_NameCity() { return NameCity_;}
 };
 
-enum class codeCommit
-{
-    fileInOpenError, fileOutOpenError
-};
+void sort(Address **addresses, int size) {
 
-int printArrayForClassObjects(std::string* arrayForClassObjects, const int quantityAdresses)
-{
-    std::ofstream fileOut("out.txt", std::ios_base::trunc);
-
-    if (fileOut.is_open())
-    {
-        std::cout << "Файл out.txt успешно открыт." << std::endl;
-    }
-    else
-    {
-        std::cout << "Ошибка открытия файла" << std::endl;
-        return static_cast<int>(codeCommit::fileOutOpenError);
-    }
-
-    fileOut << quantityAdresses << std::endl;for (int i = 0; i < quantityAdresses; i++)
-    {
-        fileOut << arrayForClassObjects[i] << std::endl;
-    }
-    fileOut.close();
-}
-
-void addressSort(std::string* arrayForClassObjects, const int quantityAdresses)
-{
-    bool swapped = false;
-    do {
-        swapped = false;
-        std::string tmp;
-
-        for (int i = quantityAdresses - 1; i > 0; --i) 
-        {
-            if (arrayForClassObjects[i - 1] > arrayForClassObjects[i])
-            {
-                tmp = arrayForClassObjects[i];
-                arrayForClassObjects[i] = arrayForClassObjects[i - 1];
-                arrayForClassObjects[i - 1] = tmp;
-                swapped = true;
-            }
-        }
-    } while (swapped);
-}
-
-std::string* createTextArr(const int quantityAdresses)
-{
-    std::string* TextArr = new std::string[quantityAdresses]{};
-
-    return TextArr;
-}
-
-void deleteTextArr(std::string* TextArr, const int quantityAdresses)
-{
-    delete[] TextArr;
-    TextArr = nullptr;
+	for (int i = 0; i < size - 1; i++) {
+		for (int j = 0; j < size - i - 1; j++) {
+			char a = addresses[j]->get_NameCity()[0];
+			char b = addresses[j + 1]->get_NameCity()[0];
+			if (a < b) {
+				Address * temp = addresses[j];
+				addresses[j] = addresses[j + 1];
+				addresses[j + 1] = temp;
+			}
+		}
+	}
 }
 
 int main()
 {
-    setlocale(LC_ALL, "Russian");
+	setlocale(LC_ALL, "Russian");
+	std::ifstream flie_read("in.txt");
+	if (!flie_read.is_open())
+	{
+		std::cout << "File 'in.txt' not open!\n";
+		return 0;
+	}
 
+	int size_arr;
+	flie_read >> size_arr;
 
-    std::ifstream fileIn("in.txt"); 
-    if (!fileIn)
-    {
-        std::cout << "Ошибка открытия файла in.txt." << std::endl;
-        return static_cast<int>(codeCommit::fileInOpenError);
-    }
-    else
-    {
-        std::cout << "Файл in.txt успешно открыт." << std::endl;
-    }
+	if (size_arr > 0)
+	{
+		Address** address = new Address*[size_arr];
 
-    int quantityAdresses = 0;
-    std::string NameCity = {};
-    std::string NameStreet = {};
-    int NumberHouse = 0;
-    int NumberApartment = 0;
+		for (size_t i = 0; i < size_arr; i++)
+		{
+			std::string NameCity;
+			std::string NameStreet;
+			int NumberHouse;
+			int NumberApartment;
 
-    fileIn >> quantityAdresses;
+			flie_read >> NameCity;
+			flie_read >> NameStreet;
+			flie_read >> NumberHouse;
+			flie_read >> NumberApartment;
 
-    std::string* arrayForClassObjects = createTextArr(quantityAdresses);
+			address[i] = new Address(NameCity, NameStreet, NumberHouse, NumberApartment);
+		}
 
-    for (int i = 0; i < quantityAdresses; i++)
-    {
-        fileIn >> NameCity >> NameStreet >> NumberHouse >> NumberApartment;
-        Adress adress(NameCity, NameStreet, NumberHouse, NumberApartment);
-        arrayForClassObjects[i] = adress.createAdress2Out();
+		sort(address, size_arr);
 
-    };
-    fileIn.close();
+		std::ofstream flie_write("out.txt");
 
-    addressSort(arrayForClassObjects, quantityAdresses);
-    printArrayForClassObjects(arrayForClassObjects, quantityAdresses); 
-    deleteTextArr(arrayForClassObjects, quantityAdresses);
+		flie_write << size_arr << std::endl;
+
+		for (size_t i = 0; i < size_arr; i++)
+		{
+			flie_write << address[i]->get_output_address() << std::endl;
+		}
+
+		flie_write.close();
+
+		for (size_t i = 0; i < size_arr; i++)
+		{
+			delete address[i];
+		}
+		delete[] address;
+
+	}
+	flie_read.close();
 }
+
