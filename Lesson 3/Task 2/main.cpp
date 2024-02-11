@@ -24,7 +24,7 @@ class triangle : public figura
 {
 protected:
     int a=10, b=20, c=30;
-    int A=30, B=70, C=80;
+    int A=50, B=60, C=70;
 public:
     triangle()
     {
@@ -55,7 +55,7 @@ class quadrilateral : public figura
 {
 protected:
     int a=10, b=20, c=30, d=40;
-    int A=30, B=40, C=50, D=60;
+    int A=50, B=60, C=70, D=80;
 public:
     quadrilateral()
     {
@@ -73,7 +73,7 @@ class triangle90 : public triangle
 public:
     triangle90()
     {
-        this->name = "прямоугольный треугольник";
+        this->name = "Прямоугольный треугольник";
         this->C = 90;
     }
 
