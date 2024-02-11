@@ -1,186 +1,271 @@
 #include <iostream>
 #include <string>
 
-class Figure
+class figura
 {
 protected:
-	std::string nameOfFigure_;
-	bool haveFourSides_ = false;
-	int sideLengthA_ = 0;
-	int sideLengthB_ = 0;
-	int sideLengthC_ = 0;
-	int sideLengthD_ = 0;
-	int angleA_ = 0;
-	int angleB_ = 0;
-	int angleC_ = 0;
-	int angleD_ = 0;
-
+    std::string name;
 public:
-	std::string getNameOfFigure() { return nameOfFigure_; }
-	int getHaveFourSides() { return haveFourSides_; }
-
-	int getSideLengthA() { return sideLengthA_; }
-	int getSideLengthB() { return sideLengthB_; }
-	int getSideLengthC() { return sideLengthC_; }
-	int getSideLengthD() { return sideLengthD_; }
-
-	int getAngleA() { return angleA_; }
-	int getAngleB() { return angleB_; }
-	int getAngleC() { return angleC_; }
-	int getAngleD() { return angleD_; }
+    figura()
+    {
+        this->name = "точка";
+    }
+    std::string get_name()
+    {
+        return name;
+    }
+    virtual void get_info()
+    {
+        std::cout <<  name << ":" << std::endl;
+    }
 };
 
-class Triangle : public Figure
+class triangle : public figura
 {
+protected:
+    int a=10, b=20, c=30;
+    int A=30, B=70, C=80;
 public:
+    triangle()
+    {
 
-	Triangle(int sideLengthA, int sideLengthB, int sideLengthC, int angleA, int angleB, int angleC)
-	{
-		nameOfFigure_ = "Треугольник";
-		sideLengthA_ = sideLengthA;
-		sideLengthB_ = sideLengthB;
-		sideLengthC_ = sideLengthC;
-		angleA_ = angleA;
-		angleB_ = angleB;
-		angleC_ = angleC;
-	}
+        this->name = "Треугольник";
+    }
+    triangle(int a, int b, int c, int A, int B, int C)
+    {
+
+        this->name = "Треугольник";
+        this->C = 90;
+        this->a = a;
+        this->b = b;
+        this->c = c;
+        this->A = A;
+        this->B = B;
+        this->C = C;
+
+    }
+    void get_info() override
+    {
+        std::cout <<  name << ":" << std::endl;
+        std::cout << "Стороны: а=" << a << ", b=" << b << ", c=" << c << std::endl;
+        std::cout << "Углы: A=" << A << ", B=" << B << ", C=" << C << '\n' << std::endl;
+    }
 };
-
-class rightTriangle : public Triangle
+class quadrilateral : public figura
 {
+protected:
+    int a=10, b=20, c=30, d=40;
+    int A=30, B=40, C=50, D=60;
 public:
-	rightTriangle(int sideLengthA, int sideLengthB, int sideLengthC, int angleA, int angleB)
-		: Triangle(sideLengthA, sideLengthB, sideLengthC, angleA, angleB, 90)
-	{
-		Triangle::nameOfFigure_ = "Прямоугольный треугольник";
-	};
+    quadrilateral()
+    {
+        this->name = "Четырехугольник";
+    }
+    void get_info() override
+    {
+        std::cout <<  name << ":" << std::endl;
+        std::cout << "Стороны: а=" << a << ", b=" << b << ", c=" << c << ", d=" << d << std::endl;
+        std::cout << "Углы: A=" << A << ", B=" << B << ", C=" << C << ", D=" << D << '\n' << std::endl;
+    }
 };
-
-class isTriangle : public Triangle
-{
-public:
-	isTriangle(int sideLengthA, int sideLengthB, int angleA, int angleB)
-		: Triangle(sideLengthA, sideLengthB, sideLengthA, angleA, angleB, angleA)
-	{
-		Triangle::nameOfFigure_ = "Равнобедренный треугольник";
-	};
-};
-
-class equilateralTriangle : public Triangle
-{
-public:
-	equilateralTriangle(int sideLengthA)
-		: Triangle(sideLengthA, sideLengthA, sideLengthA, 60, 60, 60)
-	{
-		Triangle::nameOfFigure_ = "Равносторонний треугольник";
-	};
-};
-
-class Quadrilateral : public Figure
-{
-
-public:
-	Quadrilateral(int sideLengthA, int sideLengthB, int sideLengthC, int sideLengthD, int angleA, int angleB, int angleC, int angleD)
-	{
-		nameOfFigure_ = "Четырехугольник";
-		
-		haveFourSides_ = true;
-
-		sideLengthA_ = sideLengthA;
-		sideLengthB_ = sideLengthB;
-		sideLengthC_ = sideLengthC;
-		sideLengthD_ = sideLengthD;
-
-		angleA_ = angleA;
-		angleB_ = angleB;
-		angleC_ = angleC;
-		angleD_ = angleD;
-	}
-};
-
-class Rectangle : public Quadrilateral
-{
-public: 
-	Rectangle(int sideLengthA, int sideLengthB) 
-		: Quadrilateral(sideLengthA, sideLengthB, sideLengthA, sideLengthB, 90, 90, 90, 90)
-				{ Quadrilateral::nameOfFigure_ = "Прямоугольник"; }
-};
-
-class Square : public Quadrilateral
+class triangle90 : public triangle
 {
 public:
-	Square(int sideLengthA)
-		: Quadrilateral(sideLengthA, sideLengthA, sideLengthA, sideLengthA, 90, 90, 90, 90)
-	{
-		Quadrilateral::nameOfFigure_ = "Квадрат";
-	}
+    triangle90()
+    {
+        this->name = "прямоугольный треугольник";
+        this->C = 90;
+    }
+
+    triangle90(int a,int b,int c,int A,int B)
+    {
+        this->name = "Прямоугольный треугольник";
+        this->C = 90;
+        this->a = a;
+        this->b = b;
+        this->c = c;
+        this->A = A;
+        this->B = B;
+    }
 };
 
-class Parallelogram : public Quadrilateral
+class isosceles_triangle :public triangle
 {
 public:
-	Parallelogram(int sideLengthA, int sideLengthB, int angleA, int angleB)
-		: Quadrilateral(sideLengthA, sideLengthB, sideLengthA, sideLengthB, angleA, angleB, angleA, angleB)
-	{
-		Quadrilateral::nameOfFigure_ = "Параллелограмм";
-	}
-};
+    isosceles_triangle()
+    {
+        this->name = "Равнобедренный треугольник";
+        this->c = a;
+        this->C = A;
+    }
 
-class Rhomb : public Quadrilateral
+
+    isosceles_triangle(int a, int b, int A, int B)
+    {
+        this->name = "Равнобедренный треугольник";
+        this->c = a;
+        this->C = A;
+        this->a = a;
+        this->b = b;
+        this->A = A;
+        this->B = B;
+    }
+};
+class equilateral_triangle : public triangle
 {
 public:
-	Rhomb(int sideLengthA, int angleA, int angleB)
-		: Quadrilateral(sideLengthA, sideLengthA, sideLengthA, sideLengthA, angleA, angleB, angleA, angleB)
-	{
-		Quadrilateral::nameOfFigure_ = "Ромб";
-	}
+    equilateral_triangle()
+    {
+        this->name = "Равносторонний треугольник";
+        this->A = 60;
+        this->c = a;
+        this->b = a;
+        this->C = A;
+        this->B = A;
+        this->a = a;
+    }
+
+    equilateral_triangle(int a)
+    {
+        this->name = "Равносторонний треугольник";
+        this->A = 60;
+        this->c = a;
+        this->b = a;
+        this->C = A;
+        this->B = A;
+        this->a = a;
+    }
 };
 
-void printFigure(Figure &figure)
+class rectangle : public quadrilateral
 {
-	std::cout << std::endl;
-	std::cout << figure.getNameOfFigure() << ":" << std::endl;
+public:
+    rectangle()
+    {
+        this->name = "Прямоугольник";
+        this->c = a;
+        this->d = b;
+        this->A = 90;
+        this->B = A;
+        this->C = A;
+        this->D = A;
+    }
 
-	std::cout << "Стороны:";
-	std::cout << " a=" << figure.getSideLengthA() << " b=" << figure.getSideLengthB() << " с=" << figure.getSideLengthC();
-	if (figure.getHaveFourSides())
-	{
-		std::cout << " d =" << figure.getSideLengthD() << std::endl;
-	}
-	else { std::cout << std::endl; }
+    rectangle(int a, int b)
+    {
+        this->name = "Прямоугольник";
+        this->a = a;
+        this->b = b;
+        this->c = a;
+        this->d = b;
+        this->A = 90;
+        this->B = A;
+        this->C = A;
+        this->D = A;
+    }
+    
+};
+class square : public rectangle
+{
+public:
+    square()
+    {
+        this->name = "Квадрат";
+        this->c = a;
+        this->b = a;
+        this->d = a;
 
-	std::cout << "Углы:";
-	std::cout << " А=" << figure.getAngleA() << " В=" << figure.getAngleB() << " С=" << figure.getAngleC();
-	if (figure.getHaveFourSides()) { std::cout << " D=" << figure.getAngleD() << std::endl; }
-	else { std::cout << std::endl; }
+    }
+
+    square(int a)
+    {
+        this->name = "Квадрат";
+        this->a = a;
+        this->c = a;
+        this->b = a;
+        this->d = a;
+     }    
+    
+};
+class parallelogram : public quadrilateral
+{
+public:
+    parallelogram()
+    {
+        this->name = "Параллелограмм";
+        this->c = a;
+        this->d = b;
+        this->C = A;
+        this->D = B;
+    }
+
+    parallelogram(int a, int b, int A, int B)
+    {
+        this->name = "Параллелограмм";
+        this->a = a;
+        this->c = a;
+        this->b = b;
+        this->d = b;
+        this->A = A;
+        this->C = A;
+        this->B = B;
+        this->D = B;
+    }
+    
+};
+class rhomb : public parallelogram
+{
+public:
+    rhomb()
+    {
+        this->name = "Ромб";
+        this->c = a;
+        this->b = a;
+        this->d = b;
+    }
+    rhomb(int a, int A, int B)
+    {
+        this->name = "Ромб";
+        this->a = a;
+        this->c = a;
+        this->b = a;
+        this->d = a;
+        this->A = A;
+        this->B = B;
+        this->C = A;
+        this->D = B;
+    }
+    
+};
+
+void print_info(figura* a)
+{
+        a->get_info();
 }
 
 int main()
 {
-	Triangle Triangle1(10, 20, 30, 50, 60, 70);
-	printFigure(Triangle1);
-	
-	rightTriangle rightTriangle1(10, 20, 30, 30, 60);
-	printFigure(rightTriangle1);
-	
-	isTriangle isoscelesTriangle1(10, 20, 45, 90);
-	printFigure(isoscelesTriangle1);
-	
-	equilateralTriangle equilateralTriangle1(30);
-	printFigure(equilateralTriangle1);
-	
-	Quadrilateral Quadrilateral1(10, 20, 30, 40, 50, 60, 70, 80);
-	printFigure(Quadrilateral1);
 
-	Rectangle Rectangle1(10, 20);
-	printFigure(Rectangle1);
+    figura dot;
+    triangle tri;
+    quadrilateral quadro;
+    triangle90 tri1;
+    isosceles_triangle tri2;
+    equilateral_triangle tri3;
+    rectangle quadro1;
+    square quadro2;
+    parallelogram quadro3;
+    rhomb quadro4;
 
-	Square Square1(20);
-	printFigure(Square1);
+    print_info(&tri);
+    print_info(&tri1);
+    print_info(&tri2);
+    print_info(&tri3);
+    print_info(&quadro);
+    print_info(&quadro1);
+    print_info(&quadro2);
+    print_info(&quadro3);
+    print_info(&quadro4);
 
-	Parallelogram Parallelogram1(20, 30, 30, 40);
-	printFigure(Parallelogram1);
-
-	Rhomb Rhomb1(30, 30, 40);
-	printFigure(Rhomb1);
-} 
+    return 0;
+}
