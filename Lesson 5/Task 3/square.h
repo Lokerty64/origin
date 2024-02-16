@@ -1,6 +1,6 @@
 #pragma once
 
-class square : public Quadrangle//ęâŕäđŕň
+class square : public Quadrangle
 {
 public:
 	square(double a);
