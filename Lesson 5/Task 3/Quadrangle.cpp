@@ -5,7 +5,7 @@
 	Quadrangle::Quadrangle(double a, double b, double c, double d, double A, double B, double C, double D)
 		: a(a), b(b), c(c), d(d), A(A), B(B), C(C), D(D)
 	{
-		name = "123йцу";
+		name = "Четырёхугольник";
 	}
 	double Quadrangle::get_a() { return a; }
 	double Quadrangle::get_b() { return b; }
