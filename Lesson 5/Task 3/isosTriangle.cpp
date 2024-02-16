@@ -6,5 +6,5 @@
 
 	isosTriangle::isosTriangle(double a, double b, double A, double B) : Triangle(a, b, a, A, B, A)
 	{
-		Triangle::name = "123 треугольник";
+		Triangle::name = "Равнобедренный треугольник";
 	}
