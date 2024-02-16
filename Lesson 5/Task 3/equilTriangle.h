@@ -1,6 +1,6 @@
 #pragma once
 
-class equilTriangle : public Triangle//ðàâíîñòîðîííèé òðåóãîëüíèê
+class equilTriangle : public Triangle
 {
 public:
 	equilTriangle(double a);
