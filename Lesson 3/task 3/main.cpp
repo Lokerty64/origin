@@ -4,32 +4,37 @@
 class figura
 {
 protected:
-    int field1;
+    int field1 = 0;
+    bool check = false;
     std::string name;
     std::string truefalse;
+    
+    virtual bool Check()
+	{
+		if (field1 == 0) { return true; }
+		else { return false; }
+	};
 public:
     figura()
     {
         this->truefalse = "запятая";
         this->field1 = 0;
         this->name = "точка";
+        this->check = false;
     }
-    int get_sides_count()
-    {
-        return field1;
+    
+   std::string trex()
+   {
+        if (Check()) { truefalse = "Правильная"; return truefalse;}
+		else { truefalse = "Неправильная"; return truefalse; }
     }
-    std::string get_name()
-    {
-        return name;
-    }
-    std::string get_truefalse()
-    {
-        return truefalse;
-    }
+    
     virtual void get_info()
     {
         std::cout <<  name << ":" << std::endl;
         std::cout <<  truefalse << std::endl;
+        std::cout << trex();
+		
         std::cout << "Количество сторн: "  << field1 << std::endl;
     }
 };
@@ -39,18 +44,23 @@ class triangle : public figura
 protected:
     int a=10, b=20, c=30;
     int A=50, B=60, C=70;
+    bool Check() override
+	{
+		if ((A + B + C) == 180) { return true; }
+		else { return false; }
+	};
+
 public:
     triangle()
     {
         this->field1 = 3;
         this->name = "Треугольник";
-        this->truefalse = "Правильная";
+        this->check = Check();
     }
     triangle(int a, int b, int c, int A, int B, int C)
     {
         this->field1 = 3;
         this->name = "Треугольник";
-        this->truefalse = "Правильная";
         this->C = 90;
         this->a = a;
         this->b = b;
@@ -63,47 +73,79 @@ public:
     void get_info() override
     {
         std::cout <<  name << ":" << std::endl;
-        std::cout <<  truefalse << std::endl;
+        std::cout << trex() << std::endl;
         std::cout << "Количество сторн: "  << field1 << std::endl;
         std::cout << "Стороны: а=" << a << " b=" << b << " c=" << c << std::endl;
         std::cout << "Углы: A=" << A << " B=" << B << " C=" << C << '\n' << std::endl;
     }
 };
+
 class quadrilateral : public figura
 {
 protected:
     int a=10, b=20, c=30, d=40;
     int A=50, B=60, C=70, D=80;
+    
+    virtual bool Check() //Виртуальный метод проверки на сумму углов четырехугольника == 360
+	{
+		if ((A + B + C + D) == 360) { return true; }
+		else { return false; }
+	};
+	bool CheckSides1() //Метод проверки, что стороны а,с и в,d попарно равны
+	{
+		if (a == c && b == d) { return true; }
+		else { return false; }
+	};
+	bool CheckSides2() //Метод проверки, что все стороны равны
+	{
+		if (a == b && b == c && c == d) { return true; }
+		else { return false; }
+	};
+	bool CheckAngles1() //Метод проверки, что все углы равны 90 гр
+	{
+		if (A == 90 && B == 90 && C == 90 && D == 90) { return true; }
+		else { return false; }
+	};
+	bool CheckAngles2() //Метод проверки, что углы А,С и В,D попарно равны
+	{
+		if (A == C && B == D) { return true; }
+		else { return false; }
+	};
 public:
     quadrilateral()
     {
         this->field1 = 4;
         this->name = "Четырехугольник";
-        this->truefalse = "Неправильная";
+        this->check = Check();
     }
     void get_info() override
     {
         std::cout <<  name << ":" << std::endl;
-        std::cout <<  truefalse << std::endl;
+        std::cout <<  trex() << std::endl;
         std::cout << "Количество сторн: "  <<  field1 << std::endl;
         std::cout << "Стороны: а=" << a << " b=" << b << " c=" << c << " d=" << d << std::endl;
         std::cout << "Углы: A=" << A << " B=" << B << " C=" << C << " D=" << D << '\n' << std::endl;
     }
 };
+
 class triangle90 : public triangle
 {
+protected:
+	bool Check() override
+	{
+		if (triangle::Check() &&(C == 90)) { return true; }
+		else { return false; }
+	};
 public:
     triangle90()
     {
         this->name = "Прямоугольный треугольник";
-        this->truefalse = "Неправильная";
         this->C = 90;
     }
 
     triangle90(int a,int b,int c,int A,int B)
     {
         this->name = "Прямоугольный треугольник";
-        this->truefalse = "Неправильная";
         this->C = 90;
         this->a = a;
         this->b = b;
@@ -115,11 +157,16 @@ public:
 
 class triangle90_1 : public triangle
 {
+protected:
+	bool Check() override
+	{
+		if (triangle::Check() && (C == 90)) { return true; }
+		else { return false; }
+	};
 public:
     triangle90_1()
     {
         this->name = "Прямоугольный треугольник";
-        this->truefalse = "Правильная";
         this->C = 90;
         this->B = 40;
     }
@@ -127,7 +174,6 @@ public:
     triangle90_1(int a,int b,int c,int A)
     {
         this->name = "Прямоугольный треугольник";
-        this->truefalse = "Правильная";
         this->C = 90;
         this->a = a;
         this->b = b;
@@ -139,11 +185,16 @@ public:
 
 class isosceles_triangle :public triangle
 {
+protected:
+	bool Check() override
+	{
+		if (triangle::Check() && (a==c && A==C)) { return true; }
+		else { return false; }
+	};	
 public:
     isosceles_triangle()
     {
         this->name = "Равнобедренный треугольник";
-        this->truefalse = "Правильная";
         this->c = a;
         this->C = A;
     }
@@ -160,13 +211,19 @@ public:
         this->B = B;
     }
 };
+
 class equilateral_triangle : public triangle
 {
+private:
+	bool CheckEquilTriangle()
+	{
+		if (a == b && b == c && (A == 60) && B == 60 && C == 60) { return true; }
+		else { return false; }
+	};
 public:
     equilateral_triangle()
     {
         this->name = "Равносторонний треугольник";
-        this->truefalse = "Правильная";
         this->A = 60;
         this->c = a;
         this->b = a;
@@ -178,7 +235,6 @@ public:
     equilateral_triangle(int a)
     {
         this->name = "Равносторонний треугольник";
-        this->truefalse = "Правильная";
         this->A = 60;
         this->c = a;
         this->b = a;
@@ -186,15 +242,34 @@ public:
         this->B = A;
         this->a = a;
     }
+    
+protected:
+	bool Check() override
+	{
+		if (triangle::Check() && (CheckEquilTriangle())) { return true; }
+		else { return false; }
+	};
 };
 
 class rectangle : public quadrilateral
 {
+protected:
+	bool Check() override
+	{
+		if (quadrilateral::Check() && quadrilateral::CheckSides1() && quadrilateral::CheckAngles1())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	};
+	
 public:
     rectangle()
     {
         this->name = "Прямоугольник";
-        this->truefalse = "Правильная";
         this->c = a;
         this->d = b;
         this->A = 90;
@@ -206,7 +281,6 @@ public:
     rectangle(int a, int b)
     {
         this->name = "Прямоугольник";
-        this->truefalse = "Правильная";
         this->a = a;
         this->b = b;
         this->c = a;
@@ -218,13 +292,18 @@ public:
     }
     
 };
+
 class square : public rectangle
 {
+protected:
+	bool Check() override {
+		if (quadrilateral::Check() && quadrilateral::CheckSides2() && quadrilateral::CheckAngles1()) { return true; }
+		else { return false; }
+	};
 public:
     square()
     {
         this->name = "Квадрат";
-        this->truefalse = "Правильная";
         this->c = a;
         this->b = a;
         this->d = a;
@@ -234,7 +313,6 @@ public:
     square(int a)
     {
         this->name = "Квадрат";
-        this->truefalse = "Правильная";
         this->a = a;
         this->c = a;
         this->b = a;
@@ -242,13 +320,18 @@ public:
      }    
     
 };
+
 class parallelogram : public quadrilateral
 {
+protected:
+	bool Check() override {
+		if (quadrilateral::Check() && quadrilateral::CheckSides1() && quadrilateral::CheckAngles2()) { return true; }
+		else { return false; }
+	};
 public:
     parallelogram()
     {
         this->name = "Параллелограмм";
-        this->truefalse = "Неправильная";
         this->c = a;
         this->d = b;
         this->C = A;
@@ -258,7 +341,6 @@ public:
     parallelogram(int a, int b, int A, int B)
     {
         this->name = "Параллелограмм";
-        this->truefalse = "Неправильная";
         this->a = a;
         this->c = a;
         this->b = b;
@@ -270,13 +352,18 @@ public:
     }
     
 };
+
 class rhomb : public parallelogram
 {
+protected:
+	bool Check() override {
+		if (quadrilateral::Check() && quadrilateral::CheckSides2() && quadrilateral::CheckAngles2()) { return true; }
+		else { return false; }
+	};
 public:
     rhomb()
     {
         this->name = "Ромб";
-        this->truefalse = "Неправильная";
         this->c = a;
         this->b = a;
         this->d = b;
@@ -284,7 +371,6 @@ public:
     rhomb(int a, int A, int B)
     {
         this->name = "Ромб";
-        this->truefalse = "Неправильная";
         this->a = a;
         this->c = a;
         this->b = a;
