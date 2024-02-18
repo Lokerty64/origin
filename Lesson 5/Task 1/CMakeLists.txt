@@ -3,4 +3,4 @@ project(Netolog)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(Netolog main.cpp)
+add_executable(Netolog main.cpp func.cpp math_f.h)
