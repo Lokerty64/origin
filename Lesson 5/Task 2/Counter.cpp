@@ -1,4 +1,4 @@
-#include "class.h"
+#include "Counter.h"
 
 Counter::Counter(int initial_init_value) { internal_val = initial_init_value; }
 
