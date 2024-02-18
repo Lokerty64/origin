@@ -7,7 +7,7 @@ protected:
     int field1 = 0;
     bool check = false;
     std::string name;
-    std::string truefalse;
+
     
     virtual bool Check()
 	{
@@ -17,7 +17,6 @@ protected:
 public:
     figura()
     {
-        this->truefalse = "запятая";
         this->field1 = 0;
         this->name = "точка";
         this->check = false;
@@ -25,16 +24,14 @@ public:
     
    std::string trex()
    {
-        if (Check()) { truefalse = "Правильная"; return truefalse;}
-		else { truefalse = "Неправильная"; return truefalse; }
+        if (Check()) {  return "Правильная";}
+		else { return "Неправильная"; }
     }
     
     virtual void get_info()
     {
         std::cout <<  name << ":" << std::endl;
-        std::cout <<  truefalse << std::endl;
         std::cout << trex();
-		
         std::cout << "Количество сторн: "  << field1 << std::endl;
     }
 };
