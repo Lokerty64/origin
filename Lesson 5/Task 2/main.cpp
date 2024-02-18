@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cstring>
-#include "class.h"
+#include "Counter.h"
 
 int main()
 {
