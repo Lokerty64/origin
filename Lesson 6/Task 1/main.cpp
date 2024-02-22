@@ -22,12 +22,12 @@ int main()
 
         if (forbiddenLength <= 0)
         {
-            std::cout << "Неверная длина... Введите новую" << std::endl;
+            std::cout << "Неверная длина" << std::endl;
         }
         
     } while (!checkForbiddenLength);
     
-    std::cout << "-------------------------" << std::endl;
+    std::cout << std::endl;
 
     try
     {
