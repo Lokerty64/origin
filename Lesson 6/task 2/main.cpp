@@ -18,7 +18,7 @@
 
 int main()
 {
-	setlocale(LC_ALL, "Russian"); //Корректное отображение Кириллицы
+	setlocale(LC_ALL, "Russian");
 	system("chcp 1251");
 	std::cout << std::endl;
 	
