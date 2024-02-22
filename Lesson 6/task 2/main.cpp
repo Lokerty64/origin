@@ -1,5 +1,3 @@
-﻿// 08_Задача 2. Исключения в конструкторах
-
 #include <iostream>
 #include <string>
 #include "Figure.h"
